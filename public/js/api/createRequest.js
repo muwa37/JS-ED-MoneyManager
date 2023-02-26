@@ -1,5 +1,4 @@
 /* Основная функция для совершения запросов на сервер. */
-"use strict";
 
 const createRequest = (options = {}, callback) => {
     let URL = options.URL;

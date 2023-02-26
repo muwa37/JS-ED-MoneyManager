@@ -1,13 +1,13 @@
-/**
+/*
  * Класс Entity - базовый для взаимодействия с сервером.
  * Имеет свойство URL, равно пустой строке.
- * */
+*/
 class Entity {
   static URL = '';
   /*
    * Запрашивает с сервера список данных.
    * Это могут быть счета или доходы/расходы.
-   * */
+  */
   static list(data, callback = (f) => f){
     return createRequest({method: 'GET', URL: this.URL, body: data}, callback);
   }
