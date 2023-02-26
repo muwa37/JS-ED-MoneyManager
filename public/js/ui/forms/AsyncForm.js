@@ -10,11 +10,12 @@ class AsyncForm {
    * Сохраняет переданный элемент и регистрирует события
    * через registerEvents()
   */
-  constructor(element) {
-    if (!(element)) {
-      throw new Error('Elem does not exist');
+  constructor( element ) {
+    if ( !element ) {
+      throw new Error( 'Элемент не существует' );
     }
     this.element = element;
+
     this.registerEvents();
   }
 
@@ -48,6 +49,7 @@ class AsyncForm {
   */
   submit() {
     const data = this.getData();
+
     this.onSubmit({
       data
     });

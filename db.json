@@ -5,6 +5,18 @@
       "email": "demo@demo",
       "password": "demo",
       "id": "1"
+    },
+    {
+      "name": "Egor",
+      "email": "egor@sgor.com",
+      "password": "1234",
+      "id": "1amhwa72ilelohk2l"
+    },
+    {
+      "name": "sample",
+      "email": "sample@sample.com",
+      "password": "sample",
+      "id": "1amhwa79ulelovqp9"
     }
   ],
   "accounts": [

@@ -1,22 +1,61 @@
 /* Основная функция для совершения запросов на сервер. */
 
-const createRequest = (options = {}, callback) => {
-    let URL = options.URL;
+const createRequest = (options = {}) => {
+    const f = function () {},
+        {
+            method = 'GET',
+            headers = {},
+            success = f,
+            error = f,
+            callback = f,
+            responseType,
+            async = true,
+            data = {}
+        } = options,
+        xhr = new XMLHttpRequest;
 
-    if (!options.body && !(URL === '/user/logout' )) return;
-    
-    if (options.method === 'GET' && (options.body)) {
-        const dataArr = Object.entries(options.body);
-        dataArr.map(([key, value]) => `${key}=${value}`);
-        const encodedData = '?' + dataArr.join('&');
-        URL += encodedData;
-        delete options.body;
-        delete options.URL;
+    let { url } = options;
+
+    let requestData;
+    if (responseType) {
+        xhr.responseType = responseType;
+    }
+    xhr.onload = function() {
+        success.call( this, xhr.response );
+        callback.call( this, null, xhr.response );
+    };
+    xhr.onerror = function() {
+        const err = new Error( 'Request Error' );
+        error.call( this, err );
+        callback.call( this, err );
+    };
+
+    xhr.withCredentials = true;
+
+    if ( method === 'GET' ) {
+        const urlParams = Object.entries( data )
+            .map(([ key, value ]) => `${key}=${value}` )
+            .join( '&' );
+        if ( urlParams ) {
+            url += '?' + urlParams;
+        }
+    }
+    else {
+        requestData = Object.entries( data )
+            .reduce(( target, [ key, value ]) => {
+                target.append( key, value );
+                return target;
+            }, new FormData );
+    }
+    try {
+        xhr.open( method, url, async );
+        xhr.send( requestData );
+    }
+    catch ( err ) {
+        error.call( this, err );
+        callback.call( this, err );
+        return xhr;
     }
 
-    fetch(URL, options)
-        .then(response => response.json)
-        .then(data => callback(data))
-        .catch(error => console.log(error));
-
+    return xhr;
 };
