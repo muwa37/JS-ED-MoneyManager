@@ -2,20 +2,20 @@
 "use strict";
 
 const createRequest = (options = {}, callback) => {
-    let url = options.url;
+    let URL = options.URL;
 
-    if (!options.body && !(url === '/user/logout' )) return;
+    if (!options.body && !(URL === '/user/logout' )) return;
     
     if (options.method === 'GET' && (options.body)) {
         const dataArr = Object.entries(options.body);
         dataArr.map(([key, value]) => `${key}=${value}`);
         const encodedData = '?' + dataArr.join('&');
-        url += encodedData;
+        URL += encodedData;
         delete options.body;
-        delete options.url;
+        delete options.URL;
     }
 
-    fetch(url, options)
+    fetch(URL, options)
         .then(response => response.json)
         .then(data => callback(data))
         .catch(error => console.log(error));
